@@ -1,0 +1,58 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+class App extends React.Component {
+
+	state = {
+		data:[]
+	}
+
+	fnGetUsers = () => {
+		const request = new XMLHttpRequest();
+		request.open('get', 'https://jsonplaceholder.typicode.com/users');
+		request.send();
+		
+		request.onload = (r) => {
+			console.log('Success');
+			let res = request.responseText;
+			res = JSON.parse(res);
+			this.setState({
+				data : res
+			});
+		}
+		
+		request.onerror = () => {
+			console.log('Error');
+		}
+	}
+
+	render(){
+		const {data} = this.state;
+		return <div>
+				<div><button onClick={this.fnGetUsers}>Get Users</button></div>
+				<div> 				
+					{data.length > 0 ? 
+					<ol>
+					{
+						data.map((item, index)=> {
+							return <li key={index}>{item.name}</li>
+						})
+					}
+					</ol> : <h3>No data found</h3>}
+					
+				</div>
+				</div>
+	}
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

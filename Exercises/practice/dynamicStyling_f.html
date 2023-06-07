@@ -1,0 +1,64 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+<style>
+#arrow {
+	border: solid;
+    width: 40px;
+    display: inline-block;
+    position: absolute;
+    margin-top: 100px;
+}
+
+#wall {
+	border: solid;
+    height: 200px;
+	margin-left : 400px;
+    display: inline-block;
+}
+
+</style>
+</head>
+<body>
+<div id = 'root'></div>
+<script type='text/babel'>
+
+const App = () => {
+
+	const n1Ref = React.useRef();
+
+	const fnClick = () => {
+		assignStyle(360);
+	}
+	
+	const fnSlowClick = () => {
+		var left = 0;
+		assignStyle(left);
+		var id = setInterval(() => {
+			left = left+1;
+			if (left >= 360){
+				clearInterval(id);
+			}
+			assignStyle(left);
+		}, 1);
+	}
+
+	const assignStyle = (left) => {
+		n1Ref.current.style='margin-left:'+left;
+	}
+
+	return <div>
+				<span id='arrow' ref={n1Ref}></span>
+				<span id='wall'></span>
+				<div><input type='button' value='Shoot' onClick= {fnClick}/></div>
+				<div><input type='button' value='Shoot Slowly' onClick= {fnSlowClick}/></div>
+				</div>
+
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

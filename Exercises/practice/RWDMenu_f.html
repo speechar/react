@@ -1,0 +1,163 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+.menu {
+	height: 30px;
+    background-color: yellow;
+    text-align: right;
+	position:relative;
+	left:0px;
+}
+
+.active {
+	color : red;
+	background-color:cyan;
+}
+
+.menu .menuItem {
+	margin-right: 1px;
+	position:relative;
+	display:inline-block;
+	height:100%;
+	width:80px;
+	vertical-align:middle;
+	line-height:30px;
+	text-align:center;
+	font-family: arial;
+    font-style: italic;
+    font-size: 15px;
+	text-decoration: none;
+}
+
+.mobile-menu {
+	height:110px;
+	width:150px;
+	background-color: yellow;
+    display: inline-block;
+	position:absolute;
+	left:-150px;
+	transition: left 2s;
+}
+
+.mobile-menu .menuItem {
+	display:block;
+	text-decoration: none;
+	display: block;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#mobileBtn{
+	float:right;
+}
+
+
+</style>
+<body>
+<div id = 'root'></div>
+<script type='text/babel'>
+
+const Home = (props) => {
+		return <div>Home Content and the state variable from the parent is {props.selectedMenu}</div>
+	}
+
+const About = (props) => {
+		return <div>About Content and the state variable from the parent is {props.selectedMenu}</div>
+	}
+
+const Service = (props) => {
+		return <div>Service Content and the state variable from the parent is {props.selectedMenu}</div>
+	}
+
+const Contact = (props) => {
+		return <div>Contact Content and the state variable from the parent is {props.selectedMenu}</div>
+	}
+
+const App = () => {
+
+	let loc = location.hash;
+		switch (loc) {
+			case '#/home' : {
+				loc = 'Home';
+				break;
+			}
+			case '#/about' : {
+				loc = 'About';
+				break;
+			}
+			case '#/service' : {
+				loc = 'Service';
+				break;
+			}
+			case '#/contact' : {
+				loc = 'Contact';
+				break;
+			}
+			default : {
+				loc = 'Home';
+				location.hash='#/home'
+			}
+		}
+		
+		const [isMobileView, setMobileView] = React.useState(document.body.offsetWidth <=600 ? true:false);
+		const [selectedMenu, setSelectedMenu] = React.useState(loc);
+		const [left, setLeft] = React.useState('-150');
+		
+		const fnMobMenuClick = () => {
+		if(left == '0px'){
+			setLeft(-150);
+		} else {
+			setLeft(0);
+		}
+	}
+	
+	const fnMenuClick = (e) => {
+		if(e.target.nodeName=='DIV') { return }
+		setSelectedMenu(e.target.text);	
+		if(isMobileView) { 
+			setLeft(-150);
+		}
+	}
+	
+	var timer;
+		window.addEventListener('resize', () => {
+			var b = clearTimeout(timer);
+			timer = setTimeout(() => {
+				if (document.body.offsetWidth <= 600){
+					isMobileView = true;
+				} else {
+					isMobileView = false;
+				}
+				setSelectedMenu(loc);
+				setMobileView(isMobileView);
+			}, 200);
+		});
+
+
+
+	return	<div>
+				<div>{isMobileView && <input id='mobileBtn' type='button' value='Mobile Menu' onClick={fnMobMenuClick}/>}</div>
+				<div style={isMobileView ? {left:left} : {left:0}} className= {isMobileView?'mobile-menu':'menu'} onClick={fnMenuClick}>
+					<a className={selectedMenu=='Home' ? 'active menuItem' : 'menuItem'} href='#/Home'>Home</a>
+					<a className={selectedMenu=='About' ? 'active menuItem' : 'menuItem'} href='#/About'>About</a>
+					<a className={selectedMenu=='Service' ? 'active menuItem' : 'menuItem'} href='#/Service'>Service</a>
+					<a className={selectedMenu=='Contact' ? 'active menuItem' : 'menuItem'} href='#/Contact'>Contact</a>
+				</div>
+				<h1>{selectedMenu == 'Home' && <Home selectedMenu='Home'/>}
+					{selectedMenu == 'About' && <About selectedMenu='About'/>}
+					{selectedMenu == 'Service' && <Service selectedMenu='Service'/>}
+					{selectedMenu == 'Contact' && <Contact selectedMenu='Contact'/>}
+				</h1>
+			</div>
+
+}
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

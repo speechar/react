@@ -1,0 +1,26 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const App = () => {
+
+	const nameRef = React.useRef();
+	setTimeout(function(){
+		nameRef.current.innerText = 'Hari';
+	}, 5000)
+	setTimeout(function(){
+		nameRef.current.innerText='Vujjini'
+	}, 10000)
+	return <div ref={nameRef}>Swetha</div>
+}
+
+ReactDOM.render(<App/>,document.getElementById('myDiv'));
+</script>
+</body>
+</html>

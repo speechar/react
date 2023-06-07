@@ -1,0 +1,25 @@
+<html>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+function Wish(prop){
+	return <h1>Hello.. This is {prop.data[0].name} and I am from {prop.data[0].loc}</h1>
+}
+var data = [{
+name : 'Swetha',
+loc	: 'hyd'
+}, {
+name : 'Hari',
+loc : 'US'
+}];
+
+function cb(){
+console.log('Call Back function is called');
+}
+ReactDOM.render(<Wish data={data}/>, document.getElementById('myDiv'), cb);
+</script>
+</body>
+</html>

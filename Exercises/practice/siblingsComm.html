@@ -1,0 +1,69 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id ='myDiv'></div>
+<script type='text/babel'>
+
+
+class Child1 extends React.Component {
+
+	constructor(){
+		super();
+	}
+	
+	fnClick = () => {
+		let val = this.refs.n1.value;
+		this.props.f(val);
+		this.refs.n1.value = '';
+	}
+	
+	render() {
+		return <div>
+			<div> Input : <input type='text' ref='n1'/></div>
+			<div><input type='submit' value='Submit' onClick={this.fnClick}/></div>
+		</div>
+	}
+
+}
+
+class Child2 extends React.Component {
+
+	render() {
+		return <div>Welcome {this.props.name}</div>
+	}
+
+}
+
+class Parent extends React.Component {
+
+	constructor(){
+		super();
+		this.state = {
+			name : 'Guest'
+		}
+	}
+
+	cb = (n) => {
+		this.setState({
+			name : n
+		})
+	}
+
+	render() {
+		return <div>
+			<Child1 f={this.cb}/>
+			<Child2 name={this.state.name}/>
+		</div>
+	
+	}
+}
+
+
+ReactDOM.render(<Parent/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+class App extends React.Component {
+
+constructor(){
+super();
+this.state = {
+name : 'Swetha'
+}
+setTimeout(function(){
+	this.setState({
+	name : 'Hari'
+	})
+}.bind(this), 5000)
+
+
+setTimeout(()=>{
+
+this.setState({
+name : 'Vujjini'
+})
+}, 10000)
+
+var myObj = this;
+
+setTimeout(function(){
+myObj.setState({
+	name : 'Harideep Vujjini'
+})
+}, 15000)
+
+setTimeout(function(b){
+b.setState({
+	name : 'Swetha Vujjini'
+})
+}, 20000, this)
+}
+
+render(){
+	return <h1> {this.state.name}</h1>
+}
+
+}
+
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

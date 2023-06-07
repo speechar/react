@@ -1,0 +1,15 @@
+<html>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+function Wish(prop){
+	return <h1>Hello {prop.name}</h1>
+}
+
+ReactDOM.render(<Wish name='Swetha'/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

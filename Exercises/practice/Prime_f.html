@@ -1,0 +1,42 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const App = () => {
+
+	const inputRef = React.useRef();
+	const resultRef = React.useRef();
+
+	const fnPrmCheck = () => {
+			let input = Number(inputRef.current.value);
+			var prime = true;
+			for (let i = input-1; i > 1; i--){
+				if ( input%i == 0 ){
+					prime = false;
+					break;
+				}
+			}
+			if (prime){
+				resultRef.current.innerText = 'Prime';
+			} else {
+				resultRef.current.innerText = 'Not A Prime';
+			}
+		}
+
+return <div>
+			<div>Input : <input type='text' ref={inputRef}/></div>
+			<div><input type='button' value='Check Prime' onClick={fnPrmCheck}/></div>
+			<div ref={resultRef}></div>
+		</div>
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

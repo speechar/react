@@ -1,0 +1,54 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const App = () => {
+
+	const data = ['Swetha', 'Hari', 'Mounika', 'Sandeep', 'Bhanumathi', 'Yugandhar Rao'];
+	
+	const [name, setName] = React.useState(data[0]);
+	const [buttonName, setButtonName] = React.useState('Spin');
+	const [fnId, setFnId] = React.useState(); 
+	
+	var index = 0;
+	
+	const fnBtnClck = () => {	
+		if (buttonName == 'Spin') {
+			setFnId(start());
+			setButtonName('Stop');
+		} else {
+			stop(fnId);
+			setButtonName('Spin');
+		}	
+	}
+	
+	const start = () => {
+		let fnId = setInterval(() => {
+			if (index+1 >= data.length) {
+				index = 0;
+			} else {
+				index = index+1;
+			}
+			setName(data[index]);
+		}, 100);
+		return fnId;
+	}
+	
+	const stop = (fnId) => clearInterval(fnId);
+	
+	return <div>
+			<h1>{name}</h1>
+			<div><input type='button' value={buttonName} onClick={fnBtnClck}/></div>
+			</div>
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

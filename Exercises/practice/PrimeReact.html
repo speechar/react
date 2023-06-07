@@ -1,0 +1,51 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+class Prime extends React.Component {
+
+checkPrime(){
+	var inputValue = this.refs.input.value;
+	var num = Number(inputValue);
+	if( this.check(num) ){
+		this.refs.resultBln.innerText='a Prime';
+		} else {
+			this.refs.resultBln.innerText='not a Prime';
+		}
+}
+
+check(input){
+var r = 0;
+for(var i = input-1; i>= 2; i--){
+if(input%i==0){
+	r+=1;
+}
+}
+if (r > 0){
+return false;
+} else {
+	return true;
+}
+}
+
+
+render(){
+	return <div>
+			Enter Input : <input ref ='input' type='text'/>
+			<div><input type='button' value='Submit' onClick={this.checkPrime.bind(this)}/></div>
+			<div>Result : Given number is <h1 ref='resultBln'>not a Prime</h1>
+			<div>List of prime numbers below the input values are <h3 id='resultList'></h3> </div>
+			</div>
+		</div>
+}
+
+}
+ReactDOM.render(<Prime/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

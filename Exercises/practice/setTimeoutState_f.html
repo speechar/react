@@ -1,0 +1,32 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+<!-- This is not a good example for useState hook, but its for syntax-->
+
+const App = () => {
+	console.log('In App functional component');
+	const [name, setName] = React.useState('Swetha');
+	
+	setTimeout(()=> {
+		console.log('In 1st Timeout');
+		setName('Harideep');
+	}, 5000);
+	
+	setTimeout(() => {
+		console.log('In 2nd Timeout');
+		setName('Swetha Vujjini');
+	}, 10000);
+
+	return <div>{name}</div>
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

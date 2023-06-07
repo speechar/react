@@ -1,0 +1,38 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const Sum = () => {
+
+const n1Ref = React.useRef();
+const n2Ref = React.useRef();
+const resultRef = React.useRef();
+
+	const fnAdd = () => {
+
+		var n1 = n1Ref.current.value;
+		var n2 = n2Ref.current.value;
+		var r = Number(n1)+Number(n2);
+
+		resultRef.current.innerText = r;
+
+	}
+
+return <div>
+		<div> input1 : <input type='text' ref={n1Ref}/></div>
+		<div> input2 : <input type='text' ref={n2Ref}/></div>
+		<div> <input type='button' value='Sum' onClick={fnAdd}/></div>
+		<div ref={resultRef}>  </div>
+	</div>
+
+}
+ReactDOM.render(<Sum/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

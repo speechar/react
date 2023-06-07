@@ -1,0 +1,48 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='root'></div>
+<script type='text/babel'>
+
+const App = () => {
+
+	const data = ['swetha', 'swetha peechara', 'swetha vujjini', 'hari', 'harideep', 'harideep bujjini'];
+	const inputRef = React.useRef();
+	const resultRef = React.useRef();
+	var timer;
+	
+	
+	const fnKeyup = (e) => {
+	console.log(timer);
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			fnSearch(e.target.value);
+		}, 1000);
+	}
+	
+	const fnSearch = (searchText) => {
+		console.log('search method is called');
+		const resultData=[];
+		for (let index = 0; index < data.length; index++){
+			if (data[index].includes(searchText)){
+				resultData.push(data[index]);
+			}
+		}
+		
+		resultRef.current.innerText = resultData;
+	}
+	
+	return <div>
+			<input type='text' ref={inputRef} onChange={fnKeyup}/>
+			<div ref={resultRef}></div>
+			</div>
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

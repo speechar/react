@@ -1,0 +1,483 @@
+1. we use 3 scripts
+1 React to create components
+2. Babel is to compile the jsx syntax
+3. ReactDOM is to render the data into DOM
+
+##. We can create components in 2 types
+1 is functional component and 2 is class components
+
+
+##. Using Class components:
+
+we need to extend React.Component and implement render method
+
+class Hello extends React.Component{
+	render() {
+		return <h1>Hello World</h1>
+	}
+
+}
+
+ReactDOM.render(<Hello/>, document.getElementById('#id'));
+flow :
+1. React sees Hello
+2. It didnt recongnise this as a browser element and then with the help of React library it recognises as component(if it starts with Caps letter).
+3. Then it can be functional or class component 
+4. If its a functional coponent, it calss the function and get the content.
+5. If its a class then it creates an object(name is instance always by react)
+6. It calls instance.render method and gets the content
+
+If we dont have render method in our cutsom component, 
+instance.render is not a function error will be displayed
+because, instance is the default name react uses as a reference name and then if that object does not have the method render then it will be undefined and we cant call undefined(), so instance.render is not a function error will be displayed
+
+##. React.Component has 7 properties
+4 own properties and 3 inherited properties
+own properties : props, context, refs, updater
+inherited : setState, forceUpdate and isReactComponent
+
+##. Before versions of React functional components only used for static templates, i.e, stateless and for stateful components class components were used
+but with the help of hooks now both can be used interchangeably
+
+## props and refs are the inherited members for any class componennt which gets extended by React.Component
+props to get the data to a class component from outside of the class
+refs will hold all the elements of a class component which has ref as attribute
+
+## In react Component class, plain java script classes will not have this in the body, this is why we need to bind this to that method when we give the function as event handler 
+
+for ex. onClick = {this.fnAdd.bind(this))}
+
+## 4 ways we can get the input text values
+
+1.document.getElemenntById('n1');
+
+2. <input ref="n1"> // static ref values
+this.refs.n1.value // this.refs is the React.Component property which will have all the values which has static ref properties.
+
+3. Creating dynamic reference which will be useful in functional component
+
+in constructor //better practice
+
+this.n1 = React.createRef();
+this.n2 = React.createRef();
+
+<input ref={this.n1}>
+
+this.n1.current.value
+
+4. Using events
+
+when an event is triggered react calls the event handler method it internally has the event argument
+
+fnAdd(event){
+event.target.value
+}
+
+event.target is the element
+event.target.id gives id property
+event.target.value gives the text box value
+
+
+##. when you create an instance variable in a class component in a constructor and update that value in any function, that value will not be reflected in dom (template), we need to use state property for this. state is coming from React.Componet. If we want like constants then we can use instance variables, if we want them to get updated, we need to use state
+upon updating the state variables using 
+this.setState({sum: res})
+render method also gets re rendered
+
+## Why this is undefined inside a component function?
+
+Usually, when we assign an instance function to a new variable that function loses this reference thats why we need to bind this when we assign the function to some variable
+
+for ex: 
+
+class A{
+
+    method1(){
+        console.log(this);
+    }
+}
+
+var a = new A();
+a.method1();
+var b = a.method1;
+b();
+--this will be undefined 
+
+
+if we want this instance to be worked in the method, we need to bind this when we assign, 
+
+like 
+
+var b = a.method1.bind(a);
+b();
+this just assigns the reference of the method to b and hence it looses its context and so this is undefined
+--this will be class A
+
+https://medium.com/@mlgerardvla/typeerror-how-to-deal-with-the-undefined-this-in-your-react-class-components-d42198c0b3a0#:~:text=The%20simple%20explanation%20is%20that,otherwise%20they%20are%20simply%20undefined%20.
+
+## we can handle this binding in 3 ways, 1 is in constructor 2 is while assigning the event handler to button, 3 is using arrow functions
+## Arrow syntax automatically binds this to the surrounding code's context under the hood.
+
+ class A
+    {
+
+    fn = () => {
+        console.log(this);
+    }
+
+    }
+	
+	var a = new A();
+	var b = a.fn();
+	b();
+	 it will print A (not undefined)
+	 
+This is the ES6 solution for this bind problem.
+
+ES6 arrow functions can’t be bound to a this keyword, so it will lexically go up a scope, and use the value of this in the scope in which it was defined.
+Lexical scope.
+It takes the next level scope and assign that as this and that will never be changed even if we bind wih some other context.
+call, apply and bind methods will not work on arrow functions.
+
+
+If we want the context of the function keeps on changing we can go with normal functions. whenever we want fixed context to a function, then we can use arrow functions. i.e, parent context is the fixed context in arrow functions this.
+
+
+##. Number of ways to bind this to the functions. Example in this C:\Users\Harideep\Desktop\Swetha\ReactJsPractice\practice 
+name of the file is setTimeout.html
+
+constructor(){
+super();
+this.state = {
+name : 'Swetha'
+}
+setTimeout(function(){
+	this.setState({
+	name : 'Hari'
+	})
+}.bind(this), 5000)
+
+
+setTimeout(()=>{
+
+this.setState({
+name : 'Vujjini'
+})
+}, 10000)
+
+var myObj = this;
+
+setTimeout(function(){
+myObj.setState({
+	name : 'Harideep Vujjini'
+})
+}, 15000)
+
+setTimeout(function(b){
+b.setState({
+	name : 'Swetha Vujjini'
+})
+}, 20000, this)
+}
+
+##. For every state change and for every prop change render method is going to re render. But react uses one technique and it avoids re render every component.
+
+##. Communication between components
+Parent to child
+child to parent
+child to child
+
+##. A function which takes another function as an argument is called as higher order function
+function reference which will be given to other function is called a callback function.
+call back function is the concept used to pass the data from child to parent and child to child
+
+##. if setState operations are getting executed continuously for example in a for loop, then those set state operations get terminated, if we want to perform all set states we can do this
+for loop start {
+	this.setState (function (state, props){
+	return {
+	cnt: this.state+1;
+	}
+
+	}) 
+}
+
+refer uikitjava.com
+
+##. Ajax calls 
+XMLHttpRequest, fetch and axios
+
+var req = new XMLHttpRequest();
+req.open('get', 'url');
+req.send()
+req.onload = () => {
+	// success
+}
+
+req.onerror = () => {
+	//error
+}
+
+##. async calls can be handled by 
+call backs
+promises
+observables:
+
+Promises:
+
+function  sendRequest() {
+
+    return new Promise(function(resolve, reject){
+       resolve();
+        
+    });
+
+}
+calling a method which returns promise:
+sendRequest()
+.then(function()
+	{
+		console.log('in success')
+	}, function()
+	{
+		console.log('in failure')
+	})
+	.catch(function()
+		{
+			console.log('in catch')
+		})
+		
+		
+		example:
+		
+		const send = (input) => {
+
+    return new Promise( (resolve, reject) => {
+        
+        resolve(input);
+    })
+
+}
+
+send(100).
+    then (
+        (input) => {
+            console.log('Success'+input);
+        }, 
+        () => {
+            console.log('Failed');
+        }
+    )
+ Success100
+ 
+ ## Async and await :
+ When a method returns Promise we can use either then or await and async both are same technically only syntax is different
+ 
+ const res = await send();
+ console.log('done');
+ 
+ this is same as writing the code in then block both are async operations, and if we are using await in a method we should have async key word for that function
+ 
+##. life cycle methods for class components
+
+mounting phase
+updated phase : once the conetnt is updated 
+unmounted phase : once the content is replaced
+
+mounted phase
+constructor, getDerivedStateFromProps method (before content loaded teh content), render, componentDidMount (after browser loaded the content
+(More elaborated is below)
+
+##. useState : to create state variables data inside the state, it returns an array one is the initial state of the variable and other one is function which can be used to update teh data
+
+##. useContext : we can consume the data from the context (which is created by the sender of teh data may be a parent)
+
+## useEffect : we can use all life cycles in functional components
+mounting phase, updating phase and updating phase
+
+for constructor, render, before conent loaded into the browser we can use the function space itself (it may be componentDidMount)
+
+React.useEffect(()=> {
+	console.log('insdie use effect it executes after returning teh content from the functional component this is call back so the control will  be with react')
+}, []);
+
+useEffect with empty dependencies [] will act like componentDidMount method
+
+##. Mounting Phase :
+Constructor
+getDerivedStateFromProps method
+render method
+componentDidMount method (after the componennt is loaded)
+
+Updating Phase :
+getDerivedStateFromProps method
+shouldComponentUpdate method
+render method
+getSnapshotBeforeUpdate method
+componentDidUpdate method // after component is updated similar to componenntDidMount in the mounting phase
+// If shouldComponentUpdate retuns false then only 2 methods will be executed in the updated phase
+
+if shouldComponentUpdate method returns true then it updates the content i.e, render method otherwise it will not re execute render method
+
+
+unMounting Phase
+componentWillUnmount() : This will be called just before unmount
+
+getDerivedStateFromError // this will be called in case of an error
+
+functional components equivalent phases:
+for functional components, hook is given for only componentDidMount and componentDidUpdate methods
+
+React.useEffect(()=> {
+	// equivalent code of componentDidMount since the dependeies are empty array. []
+}, []);
+
+React.useEffect(() => {
+	// componentDidUpdate and it listens for name state variable updates. and this cb method gets executed after return is done from the functional component
+}, [name])
+
+React.userEffect (() => {
+	return () => {
+		//code here will get executed at the time of unmount
+	}
+
+});
+
+##. Imports and exports
+One js file bu default can have only one default clause while exports
+
+1.js
+class A{
+
+}
+export default A; // we can export with default only one
+
+2.js
+
+export class B {
+
+}
+export class C {
+
+}
+
+
+4.js 
+
+export class C{
+
+}
+
+export class D {
+
+}
+
+class A {
+}
+
+3.js
+import A from './1.js' (or) import o from './1.js'
+import {B, C} from './2.js'
+import A as 4a,{C as 4c} from './4.js'
+
+same case with functions also
+but while using teh component (with default export) if we want to use different name we need to use the capital letter (bcz we need to have the caps for component name)
+
+4. importing jsx in js file
+import template from './Box.jsx'
+
+Box.jsx:
+
+function template () {
+	return <div className='ff'>x</div>
+}
+
+or 
+export const template = <div></div>
+then we need to import like below
+
+import {template as boxTemplate} from './Box.jsx'
+
+
+ trying things:
+ accordian items
+corosal
+RWD functional
+baloon game
+
+##. npm install command is going to check package.json file and based on the dependencies we mentioned in package.json, it will download all dependent libraries and places inside node modules folder
+
+##. react, react-dom and react-scripts are main libraries, 
+react scripts : compile, start, build, live reload, test 
+react is for identifying the react components
+react-dom is for rendering the components in DOM
+
+##. react-router-dom:
+HashRouter and BroswerRouter 
+Routes, Route
+are some of the known components which will be used for routing 
+
+<HashRouter>
+	<Routes>
+		<Route path='/home' element={<Home>}>
+	</Routes>
+</HashRouter>
+
+if we want to load components lazily we can import dynamically 
+
+const Home = lazy(()=> {import('../Home/index')})
+const about = lazy (()=> import('../About/index'))
+const service = lazy(()=> import ('../Service/index'))
+
+when we use lazy imports we would need to wrap that router in suspense tag, this is from React and lazy is also from React
+i.e, 
+import React, {lazy, Suspense} from 'React'
+
+code is
+<Suspense fallback=>
+	<HashRouter>
+		<Routes>
+			<Route path='/home' element={<Home>}>
+		</Routes>
+</HashRouter>
+</Suspense>
+
+##fileZilla, winscp we can use to manually deploy the code
+## when we build a react app it will create one folder build and place all the required files, we can deploy this in prod machine
+this build folder will have map files which will be useful in debugging, if we delete the map files we will have min version of js files so that we can not read the code on prod machine, we will have separate command to ignore this map files for prod build jobs
+
+npm run start is the command 
+
+in package.json file we can update the command.
+
+react-scripts build --no map files (this syntax is roughly written)
+
+## npm create-react-app app-name-- to create a react app, app-name is the app name, it creates the skeleton
+##we can move to src folder and then npm create-react-component componennt-name -- to create the skeleton of a component
+
+## creating exceptions
+throw new Error();
+
+Create one component for ex ExceptionBoundary and then pass all the problematic statements as children to this component
+to get the childen of a component we need to use 
+
+{this.props.children}
+
+getDerivedStateFromError is the static method and this life cycle method gets called in case of any exception occurs.
+but in the static methods, we will not be able to access this key word so we need to return the variable for this methods then the state variable gets updated.
+
+class ExceptionBoundary extends React.Component {
+	state = {
+		hasException:false
+	}
+
+	static getDerivedStateFromProps(){
+		return {
+			hasException:true
+		}
+	}
+	
+	return <div>
+		{this.state.hasException ? <h1>Something went wrong</h1> : <h1>Everything is successful</h1>}
+	</div>
+
+}
+

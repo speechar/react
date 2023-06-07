@@ -1,0 +1,41 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+    #baloonGame{
+        height: 300px;
+        width: 300px;
+        border : 1px solid;
+    }
+    .circle {
+        height: 100px;
+        width: 100px;
+        border : 1px solid;
+        border-radius: 50%;
+    }
+   
+
+</style>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const Circle = () => {
+    var finalDivPositionTop = Math.floor( Math.random() * 100 );
+    var finalDivPositionLeft = Math.floor( Math.random() * 100 );
+    return <div className='circle' style={{top:finalDivPositionTop, left:finalDivPositionLeft, position:'fixed'}}></div>
+}
+const App = () => {
+    return <div id='baloonGame'>
+            <Circle/>
+            <Circle/>
+            <Circle/>
+        </div>
+}
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id ='myDiv'>
+</div>
+<script type='text/babel'>
+
+const App = ()=> {
+
+	const resRef = React.useRef();
+	
+	const [sum, setSum] = React.useState(0);
+	const [data, setData] = React.useState({});
+	
+	const fnOnChange = (event) => {
+
+		let id = event.target.id;
+		let value = event.target.value;
+		let newData = {[id] : value};
+		setData( data => ({...data, ...newData}));
+	}
+	
+	const fnAdd = () => {
+		let res = 0;
+		for (let key in data){
+			res = res+Number(data[key]);
+		}
+		setSum(res);
+	}
+
+	return <div>
+		<div>Input 1 : <input type='text' id='n1' onChange={fnOnChange}/></div>
+		<div>Input 2 : <input type='text' id='n2' onChange={fnOnChange}/></div>
+		<div><input type='button' value='Sum' onClick={fnAdd}/></div>
+		<div ref={resRef}>{sum}</div>
+		</div>
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+
+</body>
+</html>

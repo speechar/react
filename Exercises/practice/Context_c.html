@@ -1,0 +1,69 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id ='myDiv'></div>
+<script type='text/babel'>
+
+const ctx = React.createContext();
+
+class D extends React.Component {
+
+	render() {
+		return <div>
+					D: {this.context.value}
+				</div>
+	}
+}
+D.contextType=ctx;
+
+class C extends React.Component {
+
+	render() {
+		return <div>
+					C:
+					<D/>
+				</div>
+	}
+}
+
+class B extends React.Component {
+
+	render() {
+		return <div>
+					B:
+					<C/>
+				</div>
+	}
+}
+
+class A extends React.Component {
+
+	render() {
+		return <div>
+					A:
+					<B/>
+				</div>
+	}
+}
+
+class App extends React.Component {
+
+	render() {
+		const name = 'Swetha'
+		return <div>
+					App:
+					<Provider value={name}>
+						<A/>
+					</Provider>
+				</div>
+	}
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+    .header {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+</style>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const data = [{
+    header : 'Section 1',
+    body : 'This is Section 1 details, This is Section 1 details, This is Section 1 details'
+}, {
+    header : 'Section 2',
+    body : 'This is Section 2 details, This is Section 2 details, This is Section 2 details'
+}, {
+    header : 'Section 3',
+    body : 'This is Section 3 details, This is Section 3 details, This is Section 3 details'
+}]
+
+const Accordian = (props) => {
+    return <div>
+            <div id={props.id} className='header' onClick={props.cb}>{props.header}</div>
+            {props.show && <div className='body'>{props.body}</div> }
+        </div>
+
+}
+
+const App = () => {
+
+    const [itemId, setItemId] = React.useState(0);
+
+    const fnClick = (e) => {
+       setItemId(e.target.id);
+    }
+    return <div>
+        {
+            data.map((item, index) => {
+                return <Accordian key={index} id={index} header={item.header} body={item.body} cb={fnClick} show={index==itemId}/>
+            })
+        }
+        </div>
+}
+
+
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

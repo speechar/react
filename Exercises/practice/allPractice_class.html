@@ -1,0 +1,68 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+class App extends React.Component {
+
+	constructor() {
+		super();
+		this.data = ['Swetha', 'Hari', 'Mounika', 'Sandeep', 'Bhanumathi', 'Yugandhar Rao'];
+		this.state = {
+			name : this.data[0],
+			buttonName : 'Spin',
+			fnId : 0
+		}
+		this.index = 0;
+	}
+
+	fnBtnClck = () => {	
+		if (this.state.buttonName == 'Spin') {
+			var fnId = this.start();
+			this.setState({
+				buttonName : 'Stop',
+				fnId : fnId
+			});
+		} else {
+			this.stop(this.state.fnId);
+			this.setState({
+				buttonName : 'Spin',
+				fnId : 0
+			});
+		}	
+	}
+	
+	start = () => {
+		let fnId = setInterval(() => {
+			if (this.index+1 >= this.data.length) {
+				this.index = 0;
+			} else {
+				this.index = this.index+1;
+			}
+			this.setState({
+				name : this.data[this.index]
+			});
+		}, 100);
+		return fnId;
+	}
+	
+	stop = (fnId) => clearInterval(fnId);
+	
+
+
+	render() {
+		return <div>
+			<h1>{this.state.name}</h1>
+			<div><input type='button' value={this.state.buttonName} onClick={this.fnBtnClck}/></div>
+			</div>
+	}
+}
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

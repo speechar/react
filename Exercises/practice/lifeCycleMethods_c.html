@@ -1,0 +1,64 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+class App extends React.Component {
+
+	state = {
+		name : 'Swetha'
+	}
+
+	fnClick = () => {
+		this.setState({
+			name : 'Hari'
+		})
+	}
+
+	constructor(){
+		super();
+		console.log('Constructor');
+	}
+	
+	static getDerivedStateFromProps(){
+		console.log('getDerivedStateFromProps method');
+		return null;
+	}
+	
+	componentDidMount(){
+		console.log('componentDidMount method');
+	}
+	
+	shouldComponentUpdate() {
+		console.log('shouldComponentUpdate method');
+		return true;
+	}
+	
+	getSnapshotBeforeUpdate() {
+		console.log('getSnapshotBeforeUpdate method');
+		return null;
+	}
+	
+	componentDidUpdate(){
+		console.log('componentDidUpdate method');
+	}
+
+	render() {
+		console.log('render method');
+		return <div>
+				<div>Hello {this.state.name}</div>
+				<button onClick={this.fnClick}>Change Name</button>
+				</div>
+	}
+
+	
+	}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

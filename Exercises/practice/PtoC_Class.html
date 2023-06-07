@@ -1,0 +1,36 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id ='myDiv'></div>
+<script type='text/babel'>
+
+class Child extends React.Component {
+
+	render(){
+		return <div> Welcome {this.props.name}</div>
+	}
+}
+
+
+class Parent extends React.Component {
+
+	constructor(){
+		super();
+		this.state = {
+			name : 'Swetha'
+		}
+	}
+
+	render() {
+		return <div><Child name={this.state.name}/></div>
+	}
+}
+
+ReactDOM.render(<Parent/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+.menu {
+	height: 30px;
+    background-color: yellow;
+    text-align: right;
+	position:relative;
+	left:0px;
+}
+
+.active {
+	color : red;
+	background-color:cyan;
+}
+
+.menu .menuItem {
+	margin-right: 1px;
+	position:relative;
+	display:inline-block;
+	height:100%;
+	width:80px;
+	vertical-align:middle;
+	line-height:30px;
+	text-align:center;
+	font-family: arial;
+    font-style: italic;
+    font-size: 15px;
+	text-decoration: none;
+}
+
+.mobile-menu {
+	height:110px;
+	width:150px;
+	background-color: yellow;
+    display: inline-block;
+	position:absolute;
+	left:-150px;
+	transition: left 2s;
+}
+
+.mobile-menu .menuItem {
+	display:block;
+	text-decoration: none;
+	display: block;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#mobileBtn{
+	float:right;
+}
+
+
+</style>
+<body>
+<div id = 'root'></div>
+<script type='text/babel'>
+
+class Home extends React.Component {
+
+	render() {
+		return <div>Home Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class About extends React.Component {
+
+	render() {
+		return <div>About Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class Service extends React.Component {
+
+	render() {
+		return <div>Service Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class Contact extends React.Component {
+
+	render() {
+		return <div>Contact Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class App extends React.Component {
+
+	constructor() {
+		super();
+		let isMobileView = document.body.offsetWidth <=600 ? true:false;
+		let loc = location.hash;
+		switch (loc) {
+			case '#/home' : {
+				loc = 'Home';
+				break;
+			}
+			case '#/about' : {
+				loc = 'About';
+				break;
+			}
+			case '#/service' : {
+				loc = 'Service';
+				break;
+			}
+			case '#/contact' : {
+				loc = 'Contact';
+				break;
+			}
+			default : {
+				loc = 'Home';
+				location.hash='#/home'
+			}
+		}
+		this.state={
+			selectedMenu:loc,
+			isMobileView : isMobileView
+		}
+		var timer;
+		window.addEventListener('resize', () => {
+			var b = clearTimeout(timer);
+			timer = setTimeout(() => {
+				if (document.body.offsetWidth <= 600){
+					isMobileView = true;
+				} else {
+					isMobileView = false;
+				}
+				this.setState({
+					selectedMenu:loc,
+					isMobileView : isMobileView
+				});
+			}, 200);
+		});
+	}
+	
+	fnClick = (e) => {
+		if(e.target.nodeName=='DIV') { return }
+		this.setState({
+			selectedMenu:e.target.text
+		});	
+		if(this.state.isMobileView) { 
+			this.setState({
+				left : -150
+			});
+		}
+	}
+	
+	fnClicka = (e) => {
+		alert('stopPropagation is added on the above level and propgation is stopped further');
+		e.stopPropagation();
+	}
+	
+	fnMobileMenuClick = () => {
+		if(this.state.left == '0px'){
+			this.setState({
+				left : -150
+			});
+		} else {
+			this.setState({
+				left : 0
+			});
+		}
+	}
+
+	render(){
+		const {selectedMenu, isMobileView, left} = this.state;
+		return <div>
+					<div>{isMobileView && <input type='button' id='mobileBtn' value='Mobile Menu' onClick={this.fnMobileMenuClick}/>}</div>
+					<div style={isMobileView ? {left:left} : {left:0}} className= {isMobileView?'mobile-menu':'menu'} onClick={this.fnClick}>
+					<a href='#/home' className={selectedMenu=='Home' ? 'active menuItem' : 'menuItem'}>Home</a>
+					<a href='#/about' className={selectedMenu=='About' ? 'active menuItem' : 'menuItem'}>About</a>
+					<a href='#/service' className={selectedMenu=='Service' ? 'active menuItem' : 'menuItem'} >Service</a>
+					<a href='#/contact' className={selectedMenu=='Contact' ? 'active menuItem' : 'menuItem'} >Contact</a>
+				</div>
+				<h1>{selectedMenu == 'Home' && <Home selectedMenu='Home'/>}
+				{selectedMenu == 'About' && <About selectedMenu='About'/>}
+				{selectedMenu == 'Service' && <Service selectedMenu='Service'/>}
+				{selectedMenu == 'Contact' && <Contact selectedMenu='Contact'/>}
+				</h1>
+			</div>
+	}
+}
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+    .header {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+</style>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+
+const Accordian = (props) => {
+    return <div>
+            <div id={props.id} className='header' onClick={props.cb}>{props.header}</div>
+            {props.show && <div className='body'>{props.body}</div> }
+        </div>
+
+}
+
+const App = () => {
+
+    const [itemId, setItemId] = React.useState(0);
+    const [data, setData] = React.useState([]);
+
+    const fnClick = (e) => {
+       setItemId(e.target.id);
+    }
+    React.useEffect(() => {
+            const fetchData = () => {
+                fetch('https://jsonplaceholder.typicode.com/users')
+                .then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    setData(data);
+                })                
+            }
+            fetchData()
+        },[]);   
+    return <div>
+            {
+                data.map((item, index) => {
+                return <Accordian key={index} id={index} header={item.name} body={`Name : ${item.name}  UserName :${item.username} Email : ${item.email}`} cb={fnClick} show={index==itemId}/>
+            })
+            }
+        </div>
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

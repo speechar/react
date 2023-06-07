@@ -1,0 +1,86 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+.menu {
+	height: 30px;
+    background-color: yellow;
+    text-align: right;
+	position:relative;
+}
+
+.active {
+	color : red;
+	background-color:cyan;
+}
+
+.menuItem {
+	margin-right: 1px;
+	position:relative;
+	display:inline-block;
+	height:100%;
+	width:80px;
+	vertical-align:middle;
+	line-height:30px;
+	text-align:center;
+	font-family: arial;
+    font-style: italic;
+    font-size: 15px;
+	text-decoration: none;
+}
+
+</style>
+<body>
+<div id = 'root'></div>
+<script type='text/babel'>
+
+class App extends React.Component {
+
+	constructor() {
+		super();
+		this.homeRef=React.createRef();
+		this.aboutRef=React.createRef();
+		this.serviceRef=React.createRef();
+		this.contactRef=React.createRef();
+		this.idRef=React.createRef();
+		this.state={
+			selectedRef:''
+		}
+	}
+	
+	fnClick = (ref) => {
+		var selectedRef = this.state.selectedRef;
+		if(selectedRef !== ''){
+			selectedRef.classList.remove('active');
+		}
+		this.setState({
+			selectedRef:ref.current
+		});
+		ref.current.classList.add('active'); 
+		this.idRef.current.innerText = ref.current.text+' Tab';
+		
+		
+	}
+
+	render(){
+		return <div>
+				<div className='menu'>
+					<a href='#' className='menuItem' ref={this.homeRef} onClick={(ref) => this.fnClick(this.homeRef)}>Home</a>
+					<a href='#' className='menuItem' ref={this.aboutRef} onClick={(ref) => this.fnClick(this.aboutRef)}>About</a>
+					<a href='#' className='menuItem' ref={this.serviceRef} onClick={(ref) => this.fnClick(this.serviceRef)}>Service</a>
+					<a href='#' className='menuItem' ref={this.contactRef} onClick={(ref) => this.fnClick(this.contactRef)}>Contact</a>
+				</div>
+				<div ref={this.idRef}></div>
+			</div>
+	}
+
+}
+
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

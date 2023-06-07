@@ -1,0 +1,48 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id ='myDiv'></div>
+<script type='text/babel'>
+
+const Child1 = (props) => {
+
+	const n1Ref = React.useRef();
+	
+	const fnClick = () => {
+		props.f(n1Ref.current.value);
+	}
+	
+	
+	return <div>
+			<div> Input : <input type='text' ref={n1Ref}/></div>
+			<div><input type='submit' value='Submit' onClick={fnClick}/></div>
+		</div>
+}
+
+const Child2 = (props) => {
+	return <div>Welcome {props.name}</div>
+}
+
+const Parent = () => {
+
+	const [name, setName] = React.useState('Guest');
+
+	const cb = (n) => {
+		setName(n);
+	}
+
+	return <div>
+				<Child1 f={cb}/>
+				<Child2 name={name}/>
+			</div>
+}
+
+
+ReactDOM.render(<Parent/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

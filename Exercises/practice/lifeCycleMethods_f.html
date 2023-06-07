@@ -1,0 +1,49 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+const App = () => {
+
+	const [name, setName] = React.useState('Swetha');
+	const [cnt, setCnt] = React.useState(0);
+	
+	const fnClick = () => {
+		setName(name+1);
+	}
+
+	const fnIncrement = () => {
+		setCnt(cnt+1);
+	}
+	
+	React.useEffect(() => {
+		console.log('This is the useEffect hook equivalent for componentDidMount...');
+	},[])
+	
+	React.useEffect(() => {
+		console.log("this is the useEffect hook equivalent for componentDidUpdate for name variable");
+	}, [name])
+
+	React.useEffect(()=> {
+		if (cnt != 0) {
+			console.log('this is the useEffect hook equivalent for componentDidUpdate for cnt variable');
+		}
+	}, [cnt])
+
+	return <div>
+				<div>Hello {name}</div>
+				<div><button onClick={fnClick}>Update Name</button></div>
+				<div>Count : {cnt}</div>
+				<div><button onClick={fnIncrement}>Increment</button></div>
+			</div>
+
+}
+
+ReactDOM.render(<App/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>

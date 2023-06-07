@@ -1,0 +1,106 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+</head>
+<style>
+.menu {
+	height: 30px;
+    background-color: yellow;
+    text-align: right;
+	position:relative;
+}
+
+.active {
+	color : red;
+	background-color:cyan;
+}
+
+.menuItem {
+	margin-right: 1px;
+	position:relative;
+	display:inline-block;
+	height:100%;
+	width:80px;
+	vertical-align:middle;
+	line-height:30px;
+	text-align:center;
+	font-family: arial;
+    font-style: italic;
+    font-size: 15px;
+	text-decoration: none;
+}
+
+</style>
+<body>
+<div id = 'root'></div>
+<script type='text/babel'>
+
+class Home extends React.Component {
+
+	render() {
+		return <div>Home Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class About extends React.Component {
+
+	render() {
+		return <div>About Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class Service extends React.Component {
+
+	render() {
+		return <div>Service Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class Contact extends React.Component {
+
+	render() {
+		return <div>Contact Content and the state variable from the parent is {this.props.selectedMenu}</div>
+	}
+}
+
+class App extends React.Component {
+
+	constructor() {
+		super();
+		this.state={
+			selectedMenu:'Home'
+		}
+	}
+	
+	fnClick = (e) => {
+		this.setState({
+			selectedMenu:e.target.text
+		});		
+	}
+
+	render(){
+		const {selectedMenu} = this.state;
+		return <div>
+				<div className='menu'>
+					<a href='#' className={selectedMenu=='Home' ? 'active menuItem' : 'menuItem'} onClick={this.fnClick}>Home</a>
+					<a href='#' className={selectedMenu=='About' ? 'active menuItem' : 'menuItem'} onClick={this.fnClick}>About</a>
+					<a href='#' className={selectedMenu=='Service' ? 'active menuItem' : 'menuItem'} onClick={this.fnClick}>Service</a>
+					<a href='#' className={selectedMenu=='Contact' ? 'active menuItem' : 'menuItem'} onClick={this.fnClick}>Contact</a>
+				</div>
+				<h1>{selectedMenu == 'Home' && <Home selectedMenu='Home'/>}
+				{selectedMenu == 'About' && <About selectedMenu='About'/>}
+				{selectedMenu == 'Service' && <Service selectedMenu='Service'/>}
+				{selectedMenu == 'Contact' && <Contact selectedMenu='Contact'/>}
+				</h1>
+			</div>
+	}
+
+}
+
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>

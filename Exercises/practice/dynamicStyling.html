@@ -1,0 +1,60 @@
+<html>
+<head>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+<style>
+#arrow {
+	border: solid;
+    width: 40px;
+    display: inline-block;
+    position: absolute;
+    margin-top: 100px;
+}
+
+#wall {
+	border: solid;
+    height: 200px;
+	margin-left : 400px;
+    display: inline-block;
+}
+
+</style>
+</head>
+<body>
+<div id = 'root'></div>
+<script type='text/babel'>
+
+class App extends React.Component {
+
+	fnClick = () => {
+		this.refs.n1.style='margin-left:360px'
+	}
+	
+	fnSlowClick = () => {
+		var left = 0;
+		this.refs.n1.style=left;
+		var id = setInterval(() => {
+			left = left +1;
+			if (left == 360) {
+				clearInterval(id);
+			}
+			this.refs.n1.style='margin-left:'+left;
+		}, 1);
+		
+	}
+
+	render() {
+		return <div>
+				<span id='arrow' ref='n1'></span>
+				<span id='wall'></span>
+				<div><input type='button' value='Shoot' onClick= {this.fnClick}/></div>
+				<div><input type='button' value='Shoot Slowly' onClick= {this.fnSlowClick}/></div>
+				</div>
+	}
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'));
+</script>
+</body>
+</html>
