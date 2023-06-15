@@ -1,0 +1,49 @@
+<html>
+<script type='text/javascript' src='../babel.min.js'></script>
+<script type='text/javascript' src='../react.development.js'></script>
+<script type='text/javascript' src='../react-dom.development.js'></script>
+<body>
+<div id='myDiv'></div>
+<script type='text/babel'>
+const Dashboard = () => {
+
+    const [listening, setListening] = React.useState(false);
+    const [cpuUsage, setcpuUsage] = React.useState(0);
+    const [memoryUsage, setmemoryUsage] = React.useState(0);
+
+    let eventSource = undefined;
+
+
+    React.useEffect(() => {
+        if (!listening) {
+            eventSource = new EventSource("http://localhost:8080/event/resources/usage");
+            eventSource.onmessage = (event) => {
+                const usage = JSON.parse(event.data);
+                setcpuUsage(usage.cpuUsage)
+                setmemoryUsage(usage.memoryUsage)
+            }
+            eventSource.onerror = (err) => {
+                console.error("EventSource failed:", err);
+                eventSource.close();
+            }
+            setListening(true)
+        }
+        return () => {
+                eventSource.close();
+                console.log("event closed")
+        }
+
+    }, [])
+
+    return (
+        <div >
+			<h1>Listening : {listening?'Service Monitor is Up':'Service Monitor is Down'}</h1>
+			<h1>cpu usage : {cpuUsage}</h1>
+			<h1>memory usage : {memoryUsage}</h1>
+        </div>
+    )
+}
+ReactDOM.render(<Dashboard/>, document.getElementById('myDiv'));
+</script>
+</body>
+</html>
